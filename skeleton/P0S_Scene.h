@@ -17,8 +17,14 @@ public:
     void cleanup() override;
 
 private:
-    physx::PxTransform m_transform;
-    physx::PxTransform m_transform2;
-    RenderItem* m_renderItem{ nullptr };
+    //physx::PxTransform m_transform;
+    physx::PxTransform m_transform_o;
+    //RenderItem* m_renderItem{ nullptr };
     RenderItem* m_renderSphere{ nullptr };
+    physx::PxTransform m_transform_u;
+    physx::PxTransform m_transform_v;
+    physx::PxTransform m_transform_w;
+    RenderItem* m_renderItem_u{ nullptr };
+    RenderItem* m_renderItem_v{ nullptr };
+    RenderItem* m_renderItem_w{ nullptr };
 };
