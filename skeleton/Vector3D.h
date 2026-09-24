@@ -16,7 +16,7 @@ public:
 
 	//Modulo y normalizacion
 	float magnitude() const;
-	Vector3D normalize() const;
+	Vector3D& normalize();
 
 	//Operaciones algebraicas
 	float dot(const Vector3D& v) const;

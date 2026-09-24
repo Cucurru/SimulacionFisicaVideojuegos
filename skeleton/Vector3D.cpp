@@ -19,14 +19,18 @@ float Vector3D::magnitude() const {
 	return sqrtf(x * x + y * y + z * z);
 }
 
-Vector3D Vector3D::normalize() const {
+Vector3D& Vector3D::normalize() {
 	float d = magnitude();
 
 	if (d == 0) {
 		return Vector3D();
 	}
 
-	return Vector3D(x / d, y / d, z / d);
+	x = x / d;
+	y = y / d;
+	z = z / d;
+
+	return *this;
 }
 
 float Vector3D::dot(const Vector3D& v) const {
