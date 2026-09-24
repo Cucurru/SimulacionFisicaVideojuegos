@@ -1,5 +1,5 @@
 #pragma once
-#include <foundation/Px.h>
+#include <foundation/PxVec3.h>
 
 
 
@@ -8,7 +8,7 @@ class Vector3D
 public:
 	//Atributos publicos
 	float x, y, z;
-	float atrib;
+
 	//Constructores
 	Vector3D();
 	Vector3D(float _x, float _y, float _z);
@@ -22,14 +22,13 @@ public:
 	float dot(const Vector3D& v) const;
 	Vector3D cross(const Vector3D& v) const;
 	//sobrecarga operadores
-	void operator=(Vector3D& v);
-	Vector3D operator+(Vector3D& v1);
-	Vector3D operator-(Vector3D& v);
-	Vector3D operator*(float k);
-	Vector3D operator+=(Vector3D& v);
+	Vector3D& operator=(const Vector3D& v);
+	Vector3D operator+(const Vector3D& v1) const;
+	Vector3D operator-(const Vector3D& v) const;
+	Vector3D operator*(float k) const;
+	Vector3D& operator+=(const Vector3D& v);
 
 	//Wrapper
 	operator physx::PxVec3() const;
-
 };
 
