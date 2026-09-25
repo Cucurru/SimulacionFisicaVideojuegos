@@ -32,6 +32,10 @@ void P0S_Scene::init() {
     physx::PxShape* wShape = CreateShape(physx::PxSphereGeometry(1.0f));
     m_transform_w = physx::PxTransform(w);
     m_renderItem_w = new RenderItem(wShape, &m_transform_w, Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+
+
+
+
 }
 
 void P0S_Scene::update(double dt) {
