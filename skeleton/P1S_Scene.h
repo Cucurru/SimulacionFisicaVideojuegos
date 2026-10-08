@@ -4,6 +4,7 @@
 #include "RenderUtils.hpp"
 #include <vector>
 #include "Particle.h"
+#include "Proyectil.h"
 
 class P1S_Scene : public Scene {
 public:
@@ -19,4 +20,6 @@ public:
 
 private:
     std::vector<Particle*> particles;
+    std::vector<Proyectil*> proyectiles;
+    Camera* cam;
 };

@@ -1,13 +1,13 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3& pos, Vector3& vel) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(1.0f), pAnt(pos) {
+Particle::Particle(Vector3& pos, Vector3& vel) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(1.0f), p0(pos), isVerlet(true) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
 	renderItem = new RenderItem(shape, &p, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
-Particle::Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping) : p(pos), v(vel), a(accel), d(damping) {
+Particle::Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping) : p(pos), v(vel), a(accel), d(damping), isVerlet(true){
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
@@ -37,32 +37,41 @@ void Particle::integrate(double t, Integer i) {
 	}
 	//Verlet
 	else if (i == Integer::VERLET) {
-		Vector3 pAct = p.p;
-		p.p = 2 * p.p - pAnt + a * pow(t, 2);
-		pAnt = pAct;
+		if (isVerlet) {
+			v += a * t;
+			p1 += v * t;
+			isVerlet = false;
+			p.p = p1;
+		}
+		else {
+			Vector3 pAct = p.p;
+			p.p = 2 * p1 - p0 + a * pow(t, 2);
+			p0 = p1;
+			p1 = p.p;
+		}
 	}
 	//actualizacion velocidad con damping
 	v = v * pow(d, t);
 }
 
-void Particle::changeAccel(Vector3& accel) {
+void Particle::changeAccel(Vector3 const& accel) {
 	a = accel;
 }
 
-void Particle::changeDamping(double& damping) {
+void Particle::changeDamping(double const& damping) {
 	d = damping;
 }
 
-void Particle::changeColor(Vector4& color) {
+void Particle::changeColor(Vector4 const& color) {
 	renderItem->color = color;
 }
 
 void Particle::changeShape(physx::PxShape* shape) {
-	auto oldShape = renderItem->shape;
+	physx::PxShape* oldShape = renderItem->shape;
 	renderItem->shape = shape;
 	oldShape->release();
 }
 
-Vector3& Particle::getAccel() {
+Vector3 Particle::getAccel() const {
 	return a;
 }

@@ -9,27 +9,28 @@ public:
 	Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping);
 	~Particle();
 
-	void integrate(double t, Integer i = Integer::EULER);
+	virtual void integrate(double t, Integer i = Integer::EULER);
 
-	void changeAccel(Vector3& accel);
-	void changeDamping(double& damping);
+	void changeAccel(Vector3 const& accel);
+	void changeDamping(double const& damping);
 
-	void changeColor(Vector4& color);
+	void changeColor(Vector4 const& color);
 
 	void changeShape(physx::PxShape* s);
 
-	Vector3& getAccel();
+	Vector3 getAccel() const;
 
-private:
+protected:
 	Vector3 v;
 	Vector3 a;
 	physx::PxTransform p;
-	Vector3 pAnt;
 	RenderItem* renderItem = nullptr;
 
 	//damping
 	double d;
-	
-	//masa
+
+	bool isVerlet;
+	Vector3 p0;
+	Vector3 p1;
 };
 
