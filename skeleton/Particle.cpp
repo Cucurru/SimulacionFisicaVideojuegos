@@ -29,16 +29,22 @@ void Particle::integrate(double t, Integer i) {
 	if (i == Integer::EULER) {
 		p.p += v * t;
 		v += a * t;
+		//actualizacion velocidad con damping
+		v = v * pow(d, t);
 	}
 	//Euler semiimplicito
 	else if (i == Integer::SEMIEULER) {
 		v += a * t;
+		//actualizacion velocidad con damping
+		v = v * pow(d, t);
 		p.p += v * t;
 	}
 	//Verlet
 	else if (i == Integer::VERLET) {
 		if (isVerlet) {
 			v += a * t;
+			//actualizacion velocidad con damping
+			v = v * pow(d, t);
 			p1 += v * t;
 			isVerlet = false;
 			p.p = p1;
@@ -50,8 +56,8 @@ void Particle::integrate(double t, Integer i) {
 			p1 = p.p;
 		}
 	}
-	//actualizacion velocidad con damping
-	v = v * pow(d, t);
+	////actualizacion velocidad con damping
+	//v = v * pow(d, t);
 }
 
 void Particle::changeAccel(Vector3 const& accel) {
@@ -74,4 +80,8 @@ void Particle::changeShape(physx::PxShape* shape) {
 
 Vector3 Particle::getAccel() const {
 	return a;
+}
+
+Vector3 Particle::getPosition() const {
+	return p.p;
 }

@@ -20,6 +20,8 @@ public:
 
 	Vector3 getAccel() const;
 
+	Vector3 getPosition() const;
+
 protected:
 	Vector3 v;
 	Vector3 a;

@@ -11,7 +11,6 @@ Proyectil::Proyectil(Vector3 pos, double realmass, Vector3 realvel, Vector3 simv
 void Proyectil::changeMass(double realmass) {
 	mr = realmass;
 	
-	//Vector3 vPow = Vector3(pow(vr.x / vs.x, 2), pow(vr.y / vs.y, 2), pow(vr.y / vs.y, 2));
 	ms = mr * pow(vr.magnitude()/vs.magnitude(), 2);
 }
 
