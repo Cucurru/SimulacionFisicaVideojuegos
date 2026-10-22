@@ -12,8 +12,8 @@ struct ParticleData {
 class ParticleGenerator
 {
 public:
-	ParticleGenerator(Vector3 position, /*Vector3 direction, Vector3 initialVel,*/ std::pair<float, float> desvX, std::pair<float, float> desvY, std::pair<float, float> desvZ, bool uniformDistribution, int lifeTime, float emRate = 10.0f, float limY = 200.0f,
-		Vector4 clr = { 0.0f,0.0f,0.0f,1.0f }, float partScale = 1.0f, physx::PxShape* shape = nullptr);
+	ParticleGenerator(Vector3 position, Vector3 v, int lifeTime, float emRate = 10.0f, int maxParts = 100, float limY = 200.0f,
+		Vector4 clr = { 1.0f,1.0f,1.0f,1.0f }, float partScale = 1.0f, physx::PxGeometry shape = physx::PxSphereGeometry(1.0f));
 
 	~ParticleGenerator();
 
@@ -22,32 +22,35 @@ public:
 	void emitParticle();
 
 private:
-	Vector3 p;
-	Vector3 v;
-	Vector3 dir;
+	//Vector3 p;
+	//Vector3 v;
+	//Vector3 dir;
 
-	std::random_device rd;
-	std::mt19937 gen;
+	std::default_random_engine generator;
 
-	bool useUnifDistrib;
-	std::uniform_real_distribution<float> unif_x;
-	std::uniform_real_distribution<float> unif_y;
-	std::uniform_real_distribution<float> unif_z;
+	std::normal_distribution<float> distrib_v_x;
+	std::normal_distribution<float> distrib_v_y;
+	std::normal_distribution<float> distrib_v_z;
 
-	std::normal_distribution<float> gauss_x;
-	std::normal_distribution<float> gauss_y;
-	std::normal_distribution<float> gauss_z;
+	std::normal_distribution<float> distrib_p_x;
+	std::normal_distribution<float> distrib_p_y;
+	std::normal_distribution<float> distrib_p_z;
 
-	float lifeT;
+	std::normal_distribution<float> distrib_lifetime;
+
+
+	//float lifeT;
 	float emissionRate;
 	float emissionAcc = 0.0f;
+
+	int maxParticles;
 
 	float limiteY;
 
 	std::vector<ParticleData> particles;
 
 	float scale;
-	physx::PxShape* partShape;
+	physx::PxGeometry partShape;
 	Vector4 color;
 };
 

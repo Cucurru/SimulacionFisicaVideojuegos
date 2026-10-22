@@ -268,7 +268,6 @@
     <ClCompile Include="P2S_Scene.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleGenerator.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Proyectil.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
@@ -286,7 +285,6 @@
     <ClInclude Include="P2S_Scene.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleGenerator.h" />
-    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Proyectil.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />

@@ -19,7 +19,6 @@
     <ClCompile Include="Proyectil.cpp" />
     <ClCompile Include="ParticleGenerator.cpp" />
     <ClCompile Include="P2S_Scene.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -41,7 +40,6 @@
     <ClInclude Include="Proyectil.h" />
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="P2S_Scene.h" />
-    <ClInclude Include="ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
