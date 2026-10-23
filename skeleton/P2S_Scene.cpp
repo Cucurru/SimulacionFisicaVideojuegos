@@ -5,7 +5,7 @@
 
 void P2S_Scene::init() {
     
-    pgs.push_back(new ParticleGenerator(Vector3(5.0, 0.0, 0.0), Vector3(0.0f,20.0f,10.0f), 5, 100.0f, 500));
+    pgs.push_back(new ParticleGenerator(Vector3(5.0, 0.0, 0.0), Vector3(0.0f,20.0f,10.0f), 5, 10.0f, 100.0f, 500));
 
     //pgs.push_back(new ParticleGenerator(Vector3(0.0, 0.0, 0.0), { -12.0f, 12.0f }, { 35.0f, 38.0f }, { -12.0f, 12.0f }, true, 1, 80.0f, 20.0f));
     //pgs.push_back(new ParticleGenerator(Vector3(10.0, 0.0, 0.0), { 6.0f, 8.0f }, { 2.0f, 4.0f }, { -3.0f, 3.0f }, true, 20, 50.0f, 20.0f, Vector4(1.0, 0.0, 0.0, 1.0), 0.5f));

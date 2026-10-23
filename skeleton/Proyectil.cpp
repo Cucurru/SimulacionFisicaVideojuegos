@@ -1,7 +1,7 @@
 #include "Proyectil.h"
 #include <iostream>
 
-Proyectil::Proyectil(Vector3 pos, double realmass, Vector3 realvel, Vector3 simvel, Vector3 realGravity) : Particle(pos, simvel, realGravity, 0.98) {
+Proyectil::Proyectil(Vector3 pos, double realmass, Vector3 realvel, Vector3 simvel, Vector3 realGravity) : Particle(pos, simvel, realGravity, 0.98, 1.0f) {
 	mr = realmass;
 	gr = realGravity;
 	changeVel(realvel, simvel);

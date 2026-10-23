@@ -5,8 +5,8 @@ class Particle
 {
 public:
 	static enum Integer { EULER, SEMIEULER, VERLET };
-	Particle(Vector3& pos, Vector3& vel);
-	Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping);
+	Particle(Vector3& pos, Vector3& vel, double damping = 1.0f, float m = 1.0f);
+	Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping, float m);
 	~Particle();
 
 	virtual void integrate(double t, Integer i = Integer::EULER);
@@ -22,6 +22,14 @@ public:
 
 	Vector3 getPosition() const;
 
+	void addForce(Vector3 f);
+
+	void clearForce();
+
+	float getMass() const;
+
+	void reset();
+
 protected:
 	Vector3 v;
 	Vector3 a;
@@ -34,5 +42,11 @@ protected:
 	bool isVerlet;
 	Vector3 p0;
 	Vector3 p1;
+
+	Vector3 forceAccumulator;
+	float w; //inverso masa
+
+	Vector3 posOrig;
+	Vector3 vOrig;
 };
 

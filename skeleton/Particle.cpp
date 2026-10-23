@@ -1,17 +1,21 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3& pos, Vector3& vel) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(1.0f), p0(pos), isVerlet(true) {
+Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1/m), posOrig(pos), vOrig(vel) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
 	renderItem = new RenderItem(shape, &p, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	if (m == 0) w = 0;
 }
 
-Particle::Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping) : p(pos), v(vel), a(accel), d(damping), isVerlet(true){
+Particle::Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping, float m) : p(pos), v(vel), a(accel), d(damping), isVerlet(true), forceAccumulator(0.0f, 0.0f, 0.0f), w(1/m) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
 	renderItem = new RenderItem(shape, &p, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	if (m == 0) w = 0;
 }
 
 Particle::~Particle() {
@@ -24,6 +28,8 @@ Particle::~Particle() {
 }
 
 void Particle::integrate(double t, Integer i) {
+
+	a = forceAccumulator * w;
 
 	//Euler
 	if (i == Integer::EULER) {
@@ -56,8 +62,8 @@ void Particle::integrate(double t, Integer i) {
 			p1 = p.p;
 		}
 	}
-	////actualizacion velocidad con damping
-	//v = v * pow(d, t);
+
+	clearForce();
 }
 
 void Particle::changeAccel(Vector3 const& accel) {
@@ -84,4 +90,25 @@ Vector3 Particle::getAccel() const {
 
 Vector3 Particle::getPosition() const {
 	return p.p;
+}
+
+void Particle::addForce(Vector3 f) {
+	forceAccumulator += f;
+}
+
+void Particle::clearForce() {
+	forceAccumulator = Vector3(0, 0, 0);
+}
+
+float Particle::getMass() const {
+	float m = 0;
+	if (w != 0) m = 1 / w;
+
+	return m;
+}
+
+void Particle::reset() {
+	p.p = posOrig;
+	v = vOrig;
+	clearForce();
 }

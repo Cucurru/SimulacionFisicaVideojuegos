@@ -1,8 +1,10 @@
 #include "ParticleGenerator.h"
 
-ParticleGenerator::ParticleGenerator(Vector3 position, Vector3 v, int lifeTime, float emRate, int maxParts, float limY,
+#include "GravityGenerator.h"
+
+ParticleGenerator::ParticleGenerator(Vector3 position, Vector3 v, int lifeTime, float m, float emRate, int maxParts, float limY,
 	Vector4 clr, float partScale, physx::PxGeometry shape)
-	: generator(), distrib_p_x(position.x, 0.5f), distrib_p_y(position.y, 0.5f), distrib_p_z(position.z, 0.5f), distrib_v_x(v.x, 0.5f), distrib_v_y(v.y, 0.5f), distrib_v_z(v.z, 0.5f), distrib_lifetime(lifeTime, 0.5f), maxParticles(maxParts), emissionRate(emRate), limiteY(limY), color(clr), scale(partScale), partShape(shape)
+	: generator(), distrib_p_x(position.x, 0.5f), distrib_p_y(position.y, 0.5f), distrib_p_z(position.z, 0.5f), distrib_v_x(v.x, 0.5f), distrib_v_y(v.y, 0.5f), distrib_v_z(v.z, 0.5f), distrib_lifetime(lifeTime, 0.5f), distrib_mass(m, 0.5f), maxParticles(maxParts), emissionRate(emRate), limiteY(limY), color(clr), scale(partScale), partShape(shape), gravGen(new GravityGenerator())
 {
 
 }
@@ -26,6 +28,10 @@ void ParticleGenerator::update(double dt) {
 		emissionAcc -= timeBetweenEmissions;
 	}
 
+	for (auto rf : registroFuerzas) {
+		rf.second->updateForce(rf.first, dt);
+	}
+
 	for (auto it = particles.begin(); it != particles.end(); ) {
 		it->p->integrate(dt, Particle::SEMIEULER);
 
@@ -38,6 +44,7 @@ void ParticleGenerator::update(double dt) {
 			expired = true;
 
 		if (expired) {
+			registroFuerzas.erase(it->p);
 			delete it->p;
 			it = particles.erase(it);
 		}
@@ -64,8 +71,12 @@ void ParticleGenerator::emitParticle() {
 
 		float lifeT = distrib_lifetime(generator);
 
-		Particle* part = new Particle(p, velocity, grav, damping);
+		float m = distrib_mass(generator);
+
+		Particle* part = new Particle(p, velocity, damping, m);
 		part->changeColor(color);
 		particles.push_back({ part, 0.0f, lifeT });
+
+		registroFuerzas.insert({part, gravGen });
 	}
 }
