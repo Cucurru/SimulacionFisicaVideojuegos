@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1/m), posOrig(pos), vOrig(vel) {
+Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m, int maxLife) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1/m), posOrig(pos), vOrig(vel), maxLife(maxLife), currLife(0) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
@@ -64,6 +64,9 @@ void Particle::integrate(double t, Integer i) {
 	}
 
 	clearForce();
+
+	currLife++;
+
 }
 
 void Particle::changeAccel(Vector3 const& accel) {
@@ -111,4 +114,12 @@ void Particle::reset() {
 	p.p = posOrig;
 	v = vOrig;
 	clearForce();
+}
+
+int Particle::getCurrLife() const {
+	return currLife;
+}
+
+int Particle::getMaxLife() const {
+	return maxLife;
 }

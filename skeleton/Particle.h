@@ -5,7 +5,7 @@ class Particle
 {
 public:
 	static enum Integer { EULER, SEMIEULER, VERLET };
-	Particle(Vector3& pos, Vector3& vel, double damping = 1.0f, float m = 1.0f);
+	Particle(Vector3& pos, Vector3& vel, double damping = 1.0f, float m = 1.0f, int maxLife = 5000);
 	Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping, float m);
 	~Particle();
 
@@ -30,6 +30,10 @@ public:
 
 	void reset();
 
+	int getCurrLife() const;
+
+	int getMaxLife() const;
+
 protected:
 	Vector3 v;
 	Vector3 a;
@@ -48,5 +52,8 @@ protected:
 
 	Vector3 posOrig;
 	Vector3 vOrig;
+	
+	int maxLife;
+	int currLife;
 };
 

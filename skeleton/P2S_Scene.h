@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "RenderUtils.hpp"
 #include <vector>
-#include "ParticleGenerator.h"
+#include "ParticleSystem.h"
 
 class P2S_Scene : public Scene {
 public:
@@ -18,5 +18,5 @@ public:
     void cleanup() override;
 
 private:
-    std::vector<ParticleGenerator*> pgs;
+    std::vector<ParticleSystem*> pgs;
 };

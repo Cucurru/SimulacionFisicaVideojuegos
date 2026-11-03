@@ -2,32 +2,39 @@
 
 #include <random>
 #include "Particle.h"
-#include <unordered_map>
-//#include "ForceGenerator.h"
-#include "GravityGenerator.h"
-
-struct ParticleData {
-	Particle* p;
-	float currLife;
-	float maxLife;
-};
+#include "ForceGenerator.h"
 
 class ParticleGenerator
 {
 public:
-	ParticleGenerator(Vector3 position, Vector3 v, int lifeTime, float m = 1.0f, float emRate = 10.0f, int maxParts = 100, float limY = 200.0f,
-		Vector4 clr = { 1.0f,1.0f,1.0f,1.0f }, float partScale = 1.0f, physx::PxGeometry shape = physx::PxSphereGeometry(1.0f));
+	struct ParticleConfig {
+		float lifeTime_mean;
+		float lifeTime_sigma;
 
-	~ParticleGenerator();
+		float pos_mean;
+		float pos_sigma;
+		Vector3 pos;
 
-	void update(double dt);
+		float vel_mean;
+		float vel_sigma;
+		Vector3 vel;
 
-	void emitParticle();
+		float massMean;
+		float massSigma;
+
+		Vector4 color;
+	};
+	
+	ParticleGenerator(Vector3 position, Vector3 velocity, int lifeTime, float mass, Vector4 color/*, physx::PxShape* shape*/);
+
+	ParticleGenerator(ParticleConfig config);
+
+	Particle* emitParticle();
+	void addForceGenerator(ForceGenerator* fg);
+
+	std::vector<ForceGenerator*> getForceGens() const;
 
 private:
-	//Vector3 p;
-	//Vector3 v;
-	//Vector3 dir;
 
 	std::default_random_engine generator;
 
@@ -43,23 +50,9 @@ private:
 
 	std::normal_distribution<float> distrib_mass;
 
-
-	//float lifeT;
-	float emissionRate;
-	float emissionAcc = 0.0f;
-
-	int maxParticles;
-
-	float limiteY;
-
-	std::vector<ParticleData> particles;
-
-	float scale;
-	physx::PxGeometry partShape;
+	//physx::PxShape* partShape;
 	Vector4 color;
 
-	std::unordered_map<Particle*, ForceGenerator*> registroFuerzas;
-
-	GravityGenerator* gravGen;
+	std::vector<ForceGenerator*> forceGens;
 };
 
