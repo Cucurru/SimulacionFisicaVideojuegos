@@ -24,7 +24,8 @@ private:
 	std::vector<Particle*> particles;
 	std::vector<ParticleGenerator*> particleGenerators;
 	std::vector<ForceGenerator*> forceGenerators;
-	std::unordered_map<Particle*, ForceGenerator*> registroFuerzas;
+	std::unordered_map<Particle*, std::vector<ForceGenerator*>> registroFuerzas;
+	//std::unordered_map<ForceGenerator*, Particle*> registroFuerzas;
 
 	float limiteY;
 

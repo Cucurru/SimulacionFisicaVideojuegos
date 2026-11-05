@@ -1,6 +1,7 @@
 #include "Particle.h"
+#include <iostream>
 
-Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m, int maxLife) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1/m), posOrig(pos), vOrig(vel), maxLife(maxLife), currLife(0) {
+Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m, int maxLife) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1.0f/m), posOrig(pos), vOrig(vel), maxLife(maxLife), currLife(0) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
@@ -30,6 +31,8 @@ Particle::~Particle() {
 void Particle::integrate(double t, Integer i) {
 
 	a = forceAccumulator * w;
+
+	//std::cout << forceAccumulator.y << " " << w << " " << (forceAccumulator * w).y << "\n";
 
 	//Euler
 	if (i == Integer::EULER) {
@@ -93,6 +96,10 @@ Vector3 Particle::getAccel() const {
 
 Vector3 Particle::getPosition() const {
 	return p.p;
+}
+
+Vector3 Particle::getVel() const {
+	return v;
 }
 
 void Particle::addForce(Vector3 f) {

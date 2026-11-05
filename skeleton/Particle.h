@@ -22,6 +22,8 @@ public:
 
 	Vector3 getPosition() const;
 
+	Vector3 getVel() const;
+
 	void addForce(Vector3 f);
 
 	void clearForce();

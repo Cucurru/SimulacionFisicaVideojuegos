@@ -26,7 +26,10 @@ void ParticleSystem::update(double dt) {
 
 	for (auto rf : registroFuerzas) {
 		//fuerza actualiza la particula vinculadada
-		rf.second->updateForce(rf.first, dt);
+		//rf.second->updateForce(rf.first, dt);
+		for (auto fg : rf.second) {
+			fg->updateForce(rf.first, dt);
+		}
 	}
 
 	//auto it = particles.begin();
@@ -66,9 +69,9 @@ void ParticleSystem::emitParticle() {
 			particles.push_back(p);
 
 			auto fgs = pg->getForceGens();
-			for (auto fg : fgs) {
-				registroFuerzas.insert({ p, fg });
-			}
+			//for (auto fg : fgs) {
+			registroFuerzas.insert({ p, fgs });
+			//}
 		}
 	}
 }

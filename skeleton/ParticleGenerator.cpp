@@ -11,7 +11,7 @@ ParticleGenerator::ParticleGenerator(Vector3 position, Vector3 velocity, int lif
 }
 
 ParticleGenerator::ParticleGenerator(ParticleConfig config) : 
-	generator(), distrib_p_x(config.pos.x*config.pos_mean, config.pos_sigma), distrib_p_y(config.pos.y* config.pos_mean, config.pos_sigma), distrib_p_z(config.pos.z* config.pos_mean, config.pos_sigma),
+	generator(), distrib_p_x(config.pos.x+config.pos_mean, config.pos_sigma), distrib_p_y(config.pos.y + config.pos_mean, config.pos_sigma), distrib_p_z(config.pos.z + config.pos_mean, config.pos_sigma),
 	distrib_v_x(config.vel.x*config.vel_mean, config.vel_sigma), distrib_v_y(config.vel.y* config.vel_mean, config.vel_sigma), distrib_v_z(config.vel.z* config.vel_mean, config.vel_sigma), 
 	distrib_lifetime(config.lifeTime_mean, config.lifeTime_sigma), distrib_mass(config.massMean, config.massSigma), color(config.color)/*, partShape(config.shape)*/ {
 
@@ -34,6 +34,7 @@ Particle* ParticleGenerator::emitParticle() {
 	float lifeT = distrib_lifetime(generator);
 
 	float m = distrib_mass(generator);
+	m = max(m, 0.1f);
 
 	Particle* part = new Particle(p, velocity, damping, m, lifeT);
 	part->changeColor(color);
