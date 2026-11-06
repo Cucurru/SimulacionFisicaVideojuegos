@@ -43,7 +43,6 @@ void P2S_Scene::init() {
     fg3->activate();
     pg2->addForceGenerator(fg3);
 
-    //
     ParticleSystem* ps3 = new ParticleSystem(-100.0f, 100.0f);
     pgs.push_back(ps3);
 
