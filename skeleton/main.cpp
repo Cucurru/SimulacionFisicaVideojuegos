@@ -33,7 +33,7 @@
 #define PVD_HOST "127.0.0.1" // IP localhost for PVD connection
 
 
-std::string display_text = "This is a test";
+std::string display_text = "";
 
 
 using namespace physx;

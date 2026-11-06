@@ -6,13 +6,13 @@
 
 void P2S_Scene::init() {
     ///*
-    ParticleSystem* ps1 = new ParticleSystem(500.0f);
+    ParticleSystem* ps1 = new ParticleSystem(150.0f);
     pgs.push_back(ps1);
 
     ParticleGenerator::ParticleConfig config1 = { 
-        2000.0f, 0.5f, //life
+        500.0f, 0.5f, //life
         0.0f, 1.0f, {1,0,1}, //position
-        20.0f, 1.0f, {0,1,1}, //velocity
+        40.0f, 5.0f, {0,1,0}, //velocity
         10.0f, 1.0f, //mass
         {1.0f,1.0f,1.0f,1.0f} //color
     };
@@ -20,36 +20,49 @@ void P2S_Scene::init() {
     ParticleGenerator* pg1 = new ParticleGenerator(config1);
     ps1->addParticleGenerator(pg1);
     ForceGenerator* fg1 = new GravityGenerator();
+    fg1->activate();
     pg1->addForceGenerator(fg1);
-    ps1->addForceGenerator(fg1);
-    /*ForceGenerator* fg4 = new GravityGenerator();
-    pg1->addForceGenerator(fg4);
-    ps1->addForceGenerator(fg4);*/
-    //*/
-    /*ForceGenerator* fg2 = new GravityGenerator(Vector3(0, 15, 0));
-    pg1->addForceGenerator(fg2);
-    ps1->addForceGenerator(fg2);*/
 
-    ParticleSystem* ps2 = new ParticleSystem(500.0f, 100.0f);
+    ParticleSystem* ps2 = new ParticleSystem(-100.0f, 100.0f);
     pgs.push_back(ps2);
 
     ParticleGenerator::ParticleConfig config2 = {
-        2000.0f, 0.5f, //life
-        0.0f, 1.0f, {2,0,1}, //position
-        20.0f, 1.0f, {0,1,1}, //velocity
+        1000.0f, 0.5f, //life
+        0.0f, 1.0f, {30,0,0}, //position
+        30.0f, 0.5f, {1,1,0}, //velocity
         20.0f, 1.0f, //mass
-        {1.0f,1.0f,0.0f,1.0f} //color
+        {1.0f,0.0f,0.0f,1.0f} //color
     };
 
     ParticleGenerator* pg2 = new ParticleGenerator(config2);
     ps2->addParticleGenerator(pg2);
     ForceGenerator* fg2 = new GravityGenerator();
+    fg2->activate();
     pg2->addForceGenerator(fg2);
-    ps2->addForceGenerator(fg2);
     ForceGenerator* fg3 = new GravityGenerator();
+    fg3->activate();
     pg2->addForceGenerator(fg3);
-    ps2->addForceGenerator(fg3);
 
+    //
+    ParticleSystem* ps3 = new ParticleSystem(-100.0f, 100.0f);
+    pgs.push_back(ps3);
+
+    ParticleGenerator::ParticleConfig config3 = {
+        1000.0f, 0.5f, //life
+        0.0f, 1.0f, {-50,0,0}, //position
+        5.0f, 10.0f, {0,1,0}, //velocity
+        20.0f, 1.0f, //mass
+        {0.0f,1.0f,0.0f,1.0f} //color
+    };
+
+    ParticleGenerator* pg3 = new ParticleGenerator(config3);
+    ps3->addParticleGenerator(pg3);
+    ForceGenerator* fg4 = new GravityGenerator();
+    fg4->activate();
+    pg3->addForceGenerator(fg4);
+    ForceGenerator* fg5 = new GravityGenerator();
+    fg5->activate();
+    pg3->addForceGenerator(fg5);
 }
 
 void P2S_Scene::update(double dt) {

@@ -25,7 +25,7 @@ public:
 		Vector4 color;
 	};
 	
-	ParticleGenerator(Vector3 position, Vector3 velocity, int lifeTime, float mass, Vector4 color/*, physx::PxShape* shape*/);
+	ParticleGenerator(Vector3 position, Vector3 velocity, int lifeTime, float mass, Vector4 color);
 
 	ParticleGenerator(ParticleConfig config);
 
@@ -50,7 +50,6 @@ private:
 
 	std::normal_distribution<float> distrib_mass;
 
-	//physx::PxShape* partShape;
 	Vector4 color;
 
 	std::vector<ForceGenerator*> forceGens;

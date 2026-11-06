@@ -26,20 +26,27 @@ void ParticleSystem::update(double dt) {
 
 	for (auto rf : registroFuerzas) {
 		//fuerza actualiza la particula vinculadada
-		//rf.second->updateForce(rf.first, dt);
-		for (auto fg : rf.second) {
-			fg->updateForce(rf.first, dt);
+		for (auto fg : rf.second) { 
+			if (fg->isActive()) {
+				fg->updateForce(rf.first, dt); //rf.first es particula y rf.second es generador
+			}
 		}
 	}
 
-	//auto it = particles.begin();
 	for (auto it = particles.begin(); it != particles.end();) {
 		it.operator*()->integrate(dt, Particle::SEMIEULER);
 
 		Vector3 partPos = it.operator*()->getPosition();
 
 
-		bool expired = it.operator*()->getCurrLife() >= it.operator*()->getMaxLife() || partPos.y < -limiteY;
+		bool expired = it.operator*()->getCurrLife() >= it.operator*()->getMaxLife();
+
+		if (limiteY > 0) {
+			if (partPos.y > limiteY) expired = true;
+		}
+		else {
+			if (partPos.y < limiteY) expired = true;
+		}
 
 		if (expired) {
 			registroFuerzas.erase(it.operator*());
@@ -69,9 +76,8 @@ void ParticleSystem::emitParticle() {
 			particles.push_back(p);
 
 			auto fgs = pg->getForceGens();
-			//for (auto fg : fgs) {
+
 			registroFuerzas.insert({ p, fgs });
-			//}
 		}
 	}
 }

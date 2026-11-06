@@ -13,7 +13,7 @@ void WindGenerator::updateForce(Particle* p, double dt) {
 
 	Vector3 v_particle = p->getVel();
 
-	Vector3 v_rel = v_particle - v_wind;// - v_particle;
+	Vector3 v_rel = v_particle - v_wind;
 
 	Vector3 f = v_rel * -(k1 +k2 * v_rel.magnitude());
 

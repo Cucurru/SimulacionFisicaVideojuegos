@@ -1,7 +1,7 @@
 #include "Particle.h"
 #include <iostream>
 
-Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m, int maxLife) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1.0f/m), posOrig(pos), vOrig(vel), maxLife(maxLife), currLife(0) {
+Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m, int maxLife) : p(pos), v(vel), a(Vector3(1.0f,1.0f,1.0f)), d(damping), p0(pos), isVerlet(true), forceAccumulator(0.0f,0.0f,0.0f), w(1.0f/m), posOrig(pos), vOrig(vel), maxLife(maxLife), currLife(0), noForce(true) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
@@ -10,7 +10,7 @@ Particle::Particle(Vector3& pos, Vector3& vel, double damping, float m, int maxL
 	if (m == 0) w = 0;
 }
 
-Particle::Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping, float m) : p(pos), v(vel), a(accel), d(damping), isVerlet(true), forceAccumulator(0.0f, 0.0f, 0.0f), w(1/m) {
+Particle::Particle(Vector3& pos, Vector3& vel, Vector3& accel, double damping, float m) : p(pos), v(vel), a(accel), d(damping), isVerlet(true), forceAccumulator(0.0f, 0.0f, 0.0f), w(1/m), noForce(false) {
 	
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(1.0f));
 	
@@ -30,9 +30,9 @@ Particle::~Particle() {
 
 void Particle::integrate(double t, Integer i) {
 
-	a = forceAccumulator * w;
-
-	//std::cout << forceAccumulator.y << " " << w << " " << (forceAccumulator * w).y << "\n";
+	if (noForce) {
+		a = forceAccumulator * w;
+	}
 
 	//Euler
 	if (i == Integer::EULER) {
@@ -67,9 +67,7 @@ void Particle::integrate(double t, Integer i) {
 	}
 
 	clearForce();
-
 	currLife++;
-
 }
 
 void Particle::changeAccel(Vector3 const& accel) {

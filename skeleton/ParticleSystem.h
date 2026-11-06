@@ -9,7 +9,7 @@
 class ParticleSystem
 {
 public:
-	ParticleSystem(float limY = 100.0f, float emRate = 100.0f, int maxParts = 500);
+	ParticleSystem(float limY = -100.0f, float emRate = 100.0f, int maxParts = 500);
 	~ParticleSystem();
 
 	void update(double dt);
@@ -25,7 +25,6 @@ private:
 	std::vector<ParticleGenerator*> particleGenerators;
 	std::vector<ForceGenerator*> forceGenerators;
 	std::unordered_map<Particle*, std::vector<ForceGenerator*>> registroFuerzas;
-	//std::unordered_map<ForceGenerator*, Particle*> registroFuerzas;
 
 	float limiteY;
 

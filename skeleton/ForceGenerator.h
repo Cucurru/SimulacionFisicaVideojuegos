@@ -5,11 +5,15 @@
 class ForceGenerator
 {
 public:
-	ForceGenerator() {};
+	ForceGenerator();
 
-	virtual void updateForce(Particle* p, double dt) = 0;
+	virtual void updateForce(Particle* p, double dt);
+
+	virtual void activate();
+
+	bool isActive() const;
 
 protected:
-
+	bool active;
 };
 

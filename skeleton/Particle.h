@@ -57,5 +57,7 @@ protected:
 	
 	int maxLife;
 	int currLife;
+
+	bool noForce;
 };
 

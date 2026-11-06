@@ -10,7 +10,7 @@ public:
 
 	void updateForce(Particle* p, double dt) override;
 
-	void trigger();
+	void activate() override;
 
 private:
 	Vector3 center;
@@ -18,9 +18,8 @@ private:
 	float R;
 	float tau;
 	float t;
-	bool active;
+	//bool active;
 
 	float ve;
-	//float Rmax;
 };
 

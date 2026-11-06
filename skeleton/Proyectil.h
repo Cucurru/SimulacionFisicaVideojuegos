@@ -16,8 +16,11 @@ public:
 
 private:
 	double mr;
+
 	Vector3 vr;
+
 	double ms;
+
 	Vector3 vs;
 	
 	Vector3 gr;
